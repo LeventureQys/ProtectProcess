@@ -1,0 +1,9 @@
+﻿  Reading Qt configuration (D:/DevTools/Qt32/5.12.12/msvc2017/bin/qmake)
+  SystemInfo.cpp
+  main.cpp
+  MainApplication.cpp
+  LgQDumper.cpp
+  Tools_South.cpp
+  moc_SystemInfo.cpp
+  moc_MainApplication.cpp
+  ProtectProcess.vcxproj -> D:\WorkShop\Github\ProtectProcess\QApplicationFrame\Release\ProtectProcess.exe

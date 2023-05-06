@@ -1,0 +1,10 @@
+﻿  moc LocalInfo\SystemInfo.h
+  moc Main\MainApplication.h
+  SystemInfo.cpp
+  main.cpp
+  MainApplication.cpp
+  LgQDumper.cpp
+  Tools_South.cpp
+  moc_SystemInfo.cpp
+  moc_MainApplication.cpp
+  QApplicationFrame.vcxproj -> D:\WorkShop\Github\QApplicationFrame\QApplicationFrame\Debug\QApplicationFrame.exe

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="QDumper">
+      <UniqueIdentifier>{a3eccee9-96e6-4d73-a9b6-c767f6b4bf70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{c532af77-3b46-4763-88c3-78a8d99a07f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{b793bc79-9983-496e-8b72-7607228656c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="QDumper\LgQDumper.cpp">
+      <Filter>QDumper</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\MainApplication.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\Tools_South.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalInfo\SystemInfo.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="QDumper\LgQDumper.h">
+      <Filter>QDumper</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Tools_South.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Main\MainApplication.h">
+      <Filter>Include</Filter>
+    </QtMoc>
+    <QtMoc Include="LocalInfo\SystemInfo.h">
+      <Filter>Include</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>
