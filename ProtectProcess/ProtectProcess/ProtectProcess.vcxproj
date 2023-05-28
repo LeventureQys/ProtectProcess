@@ -89,12 +89,17 @@
     <ClCompile Include="Main\MainApplication.cpp" />
     <ClCompile Include="QDumper\LgQDumper.cpp" />
     <ClCompile Include="Tools\Tools_South.cpp" />
+    <ClCompile Include="View\View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="View\View.h" />
     <QtMoc Include="LocalInfo\SystemInfo.h" />
     <ClInclude Include="Tools\Tools_South.h" />
     <QtMoc Include="Main\MainApplication.h" />
     <ClInclude Include="QDumper\LgQDumper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="View\View.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

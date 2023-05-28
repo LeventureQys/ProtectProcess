@@ -1,6 +1,11 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: 中间目录(Debug\)包含从另一个项目(QApplicationFrame.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  moc LocalInfo\SystemInfo.h
   moc Main\MainApplication.h
-  MainApplication.cpp
+  SystemInfo.cpp
   main.cpp
+  MainApplication.cpp
+  LgQDumper.cpp
+  Tools_South.cpp
+  moc_SystemInfo.cpp
   moc_MainApplication.cpp
-  ProtectProcess.vcxproj -> D:\WorkShop\Github\ProtectProcess\QApplicationFrame\Debug\ProtectProcess.exe
+  ProtectProcess.vcxproj -> D:\WorkShop\Github\ProtectProcesses\ProtectProcess\Debug\ProtectProcess.exe

@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\AppData\Local\Temp\hytqi1dn.v1h;D:\DevTools\Qt32\5.12.12\msvc2017\include;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtWidgets;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtGui;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtANGLE;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtCore;C:\Users\Administrator\AppData\Local\Temp\hytqi1dn.v1h;/include;D:\DevTools\Qt32\5.12.12\msvc2017\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\AppData\Local\Temp\pswe11ju.g01;D:\DevTools\Qt32\5.12.12\msvc2017\include;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtWidgets;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtGui;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtANGLE;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtCore;C:\Users\Administrator\AppData\Local\Temp\pswe11ju.g01;/include;D:\DevTools\Qt32\5.12.12\msvc2017\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>.\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
