@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     qDebug() << "当前使用的是Windows系统";
     SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
 
+    app.Start();
 
 
     return app.exec();

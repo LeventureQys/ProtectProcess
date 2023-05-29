@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/bgs">
+        <file>line_Edit.png</file>
+        <file>line_Edit_hover.png</file>
+        <file>SelectBG.png</file>
+        <file>StuList_BG.png</file>
+        <file>动画.gif</file>
+        <file>勾.png</file>
+        <file>已开启.png</file>
+        <file>已开启-经过.png</file>
+        <file>确定按钮---禁用.png</file>
+        <file>窗体.png</file>
+    </qresource>
+    <qresource prefix="/bg2">
+        <file>提示弹出层/4.11---提示弹出层组件 (2).psd</file>
+        <file>提示弹出层/4.11---提示弹出层组件.png</file>
+        <file>提示弹出层/4.11---提示弹出层组件.psd</file>
+        <file>提示弹出层/wait2.gif</file>
+        <file>提示弹出层/关闭.png</file>
+        <file>提示弹出层/关闭【经过】.png</file>
+        <file>提示弹出层/图标（中）---操作失败.png</file>
+        <file>提示弹出层/图标（中）---操作成功.png</file>
+        <file>提示弹出层/图标（中）---操作提示.png</file>
+        <file>提示弹出层/图标（中）---操作确认.png</file>
+        <file>提示弹出层/图标（中）---操作询问.png</file>
+        <file>提示弹出层/图标（大）---操作失败.png</file>
+        <file>提示弹出层/图标（大）---操作成功.png</file>
+        <file>提示弹出层/图标（大）---操作提示.png</file>
+        <file>提示弹出层/图标（大）---操作确认.png</file>
+        <file>提示弹出层/图标（大）---操作询问.png</file>
+        <file>提示弹出层/图标（小）---操作失败.png</file>
+        <file>提示弹出层/图标（小）---操作成功.png</file>
+        <file>提示弹出层/图标（小）---操作提示.png</file>
+        <file>提示弹出层/按钮背景（实心圆）（经过）.png</file>
+        <file>提示弹出层/按钮背景（实心圆）.png</file>
+        <file>提示弹出层/按钮背景（实心圆）投影效果.png</file>
+        <file>提示弹出层/按钮背景（空心圆）（经过）.png</file>
+        <file>提示弹出层/按钮背景（空心圆）.png</file>
+        <file>提示弹出层/按钮背景（空心圆）投影效果.png</file>
+        <file>提示弹出层/提示弹出层背景.png</file>
+        <file>提示弹出层/课后作业_提示弹出层.png</file>
+    </qresource>
+</RCC>

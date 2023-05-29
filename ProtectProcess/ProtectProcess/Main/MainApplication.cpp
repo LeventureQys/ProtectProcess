@@ -3,7 +3,7 @@
 MainApplication::MainApplication(int& argc, char** argv) :
 	QApplication(argc, argv)
 {
-	this->initApplication();
+	//this->initApplication();
 	QList<QString> string_argv;
 	for (int i = 0; i < argc; ++i) {
 		string_argv.append(QString(argv[i]));
@@ -41,6 +41,8 @@ MainApplication::~MainApplication()
 }
 void MainApplication::initApplication() {
 	SystemInfo::Singleton(); //初始化单例对象
+	//manager.init();			//初始化进程管理对象
+
 }
 
 void MainApplication::AnalysisArgs(QList<QString> argv)
@@ -92,35 +94,24 @@ void MainApplication::CheckDevloperMode()
 	}
 }
 
+void MainApplication::ReadDevloperMode()
+{
+	switch (SystemInfo::Singleton()->Dev_Mode) {
+	case DevState::Developer_Mode: {
+		this->viewer.initView();
+		break;}
+	case DevState::Infomation_Mode: {
+		break;}
+	case DevState::None: {
+		break;}
+	}
+}
+
 void MainApplication::Start() {
 	
-	
+	this->initApplication();		//初始化进程
+	this->ReadDevloperMode();		//读取开发者模式
 
 
-}
-
-void MainApplication::StartWatching()
-{
-	QTimer* timer = new QTimer(this);
-	connect(timer, &QTimer::timeout, [=]() {
-		QList<QString> processNames = m_settings->childKeys();
-		foreach(const QString & name, processNames) {
-			QString path = m_settings->value(name).toString();
-			if (!isProcessRunning(name) && path != "") {
-				QProcess::startDetached(path);
-			}
-		}
-		});
-}
-bool MainApplication::isProcessRunning(const QString& processName)
-{
-	QProcess process;
-	process.start("pidof " + processName);
-	process.waitForFinished(-1);
-
-	QByteArray output = process.readAllStandardOutput();
-	QList<QByteArray> pids = output.split(' ');
-
-	return !pids.isEmpty();
 }
 

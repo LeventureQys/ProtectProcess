@@ -13,6 +13,7 @@
 #include "qsharedmemory.h"
 #include "qdir.h"
 #include "../View/View.h"
+
 class MainApplication  : public QApplication
 {
 	Q_OBJECT
@@ -24,17 +25,15 @@ public:
 	~MainApplication();
 	
 	void Start();
-	void StartWatching();
 
 private:
 
 	QSettings *m_settings;
 	void initApplication();
-	bool isProcessRunning(const QString& processName);
 
 	void AnalysisArgs(QList<QString> argv);			//启动项检查，开发者模式检查
 	void CheckDevloperMode();						//共享内存检查，检查是否有开发者密钥
-
+	void ReadDevloperMode();
 	
 	//寻常日志
 	inline void nLog(QString FuncName, QString strValue) {
@@ -44,4 +43,8 @@ private:
 	inline void eLog(QString FuncName, QString strValue) {
 		South_Tools::WriteErrorMessage(this->metaObject()->className(), FuncName, strValue);
 	}
+
+	
+	View viewer;
+
 };
