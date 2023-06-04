@@ -10,6 +10,11 @@
 #include"qdir.h"
 #include "qsettings.h"
 #include "qcheckbox.h"
+#include "qjsondocument.h"
+#include "qjsonobject.h"
+#include "qjsonarray.h"
+//就是 我知道 业务应该和界面分开，但是我 懒得分开了，嘻嘻
+
 struct ProcessInfo {
 	QFileInfo fileInfo;
 	bool bln_resetable = false;
@@ -25,11 +30,14 @@ public:
 
 	void setResetable(bool resetable);						//设置是否守护
 	bool init(QString filePath,qint32 id);					//获取文件路径，同时获取一切信息
+	bool init(QString filePath, qint32 id, QString info,bool resetable);
 	bool setResetableTimer(bool timerOn);					//设置一个阻断，如果我们暂时不需要守护了，那么就把时钟停止就行
 
 	ProcessInfo &getProcessInfo();
 	void setProcessInfo(ProcessInfo &info);
 	void setProcessInfo(QFileInfo& info);
+	bool isEmpty();
+	static Process& Empty();
 signals:
 	void Exception(qint32 id,const QString& string);
 	void Info(qint32 id,const QString& program, const QString& string);
@@ -60,18 +68,26 @@ public:
 
 	void init();	
 
-	
+	//ProtectProcess.ini 每个需要管理的进程都通过
 
 	//curd
 	qint32 AddProcess(QString Path);
+	qint32 AddProcess(QString Path, QString info,bool blnResetable);
+
 	void DeleteProcess(qint32 id);
+	bool DeleteProcess(QString filePath);
 	void SetProcess(qint32 id,QFileInfo fileInfo);		//修改指定ID对象的文件信息
-	void SetProcess(qint32 id, ProcessInfo processInfo);
+	void SetProcess(ProcessInfo processInfo);
+
 	ProcessInfo getProcess(qint32 id);					//根据指定ID获得文件信息
+	ProcessInfo getProcess(QString filePath);
 
 	QHash<qint32, ProcessInfo> getProcessInfo();		//获得所有进程信息
 
 	void PauseAll(bool pauseAll);						//开始所有任务
+	bool get_bln_init();
+	qint32 getSize();
+	bool exist(QString filePath);						//是否已经存在重复路径了
 private slots:
 
 	void sendException(const QString& string);
@@ -83,12 +99,15 @@ private:
 	QHash<qint32, Process*> list_process;				//所有进程的列表
 	QHash<qint32, ProcessInfo> hash_info;				//获得信息与ID的哈希表,展示用的，并不是与实际上同步
 	void createConfigFolderIfNeeded();
-	void SaveSettingsFile();
+	void SaveSettingsFile();							//将当前的状态保存
 	QString configIniFilepath = "";
 signals:
 	void Exception(qint32 id,const QString& strMessage);			//异常
 	void Info(qint32 id,const QString& program,const QString& strMessage);				//通知
 };
+
+
+
 //info:用于作为界面化操作守护程序的类
 class View : public QMainWindow
 {
@@ -104,6 +123,7 @@ public:
 private slots:
 	void AddProcess_view(ProcessInfo pInfo);			//加入一个进程
 	void DeleteProcess_view(qint32 id);				//删除一个进程
+	void InitTableView();
 	void on_btn_start_clicked();
 	void on_btn_stop_clicked();
 

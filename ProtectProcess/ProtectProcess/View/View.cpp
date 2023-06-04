@@ -11,37 +11,46 @@ View::~View()
 
 void View::initView()
 {
-	this->show();
+
 	this->manager.init();
-	this->ui.tableWidget->setColumnCount(4);
-	this->ui.tableWidget->setColumnWidth(0, 50);		//id
-	this->ui.tableWidget->setColumnWidth(1, 150);		//是否守护
-	this->ui.tableWidget->setColumnWidth(2, 350);		//路径
-	this->ui.tableWidget->setColumnWidth(3, 150);		//说明
+	this->ui.tableWidget->setColumnCount(3);
+	//this->ui.tableWidget->setColumnWidth(0, 50);		//id
+	this->ui.tableWidget->setColumnWidth(0, 150);		//是否守护
+	this->ui.tableWidget->setColumnWidth(1, 350);		//路径
+	this->ui.tableWidget->setColumnWidth(2, 150);		//说明
 
 	QStringList titleList;
-	titleList << "ID" << "是否守护" << "路径" << "说明";
+	titleList << "是否守护" << "路径" << "说明";
 
 	this->ui.tableWidget->setHorizontalHeaderLabels(titleList);
 
+	if (!this->manager.get_bln_init() || this->manager.getProcessInfo().size() == 0) {
+		qDebug() << "Cant Read Manager";
+		return;
+	}
+
+	for each (auto key in this->manager.getProcessInfo().keys())
+	{
+		this->AddProcess_view(this->manager.getProcess(key));	//添加进程
+	}
+	
 }
 
 void View::AddProcess_view(ProcessInfo pInfo)
 {
-	QTableWidgetItem* id = new QTableWidgetItem(pInfo.id);
-	QTableWidgetItem* filePath = new QTableWidgetItem(pInfo.fileInfo.absolutePath());
-	QTableWidgetItem* Info = new QTableWidgetItem(pInfo.info);
 
-	
+	this->ui.tableWidget->insertRow(this->ui.tableWidget->rowCount());
+	QTableWidgetItem* id = new QTableWidgetItem(QString::number(pInfo.id));
+	QTableWidgetItem* filePath = new QTableWidgetItem(pInfo.fileInfo.absoluteFilePath());
+	QTableWidgetItem* Info = new QTableWidgetItem(pInfo.info);
 
 	QCheckBox* checkBox = new QCheckBox();
 	checkBox->setChecked(pInfo.bln_resetable);
-	this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount(), 0, id);
+	//this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount() - 1, 0, id);
 	//this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount(), 2, id);
-	this->ui.tableWidget->setCellWidget(this->ui.tableWidget->rowCount() - 1, 1, checkBox);
-	this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount(), 2, filePath);
-	this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount(), 3, Info);
-
+	this->ui.tableWidget->setCellWidget(this->ui.tableWidget->rowCount() - 1, 0, checkBox);
+	this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount() - 1, 1, filePath);
+	this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount() - 1, 2, Info);
 
 }
 
@@ -58,6 +67,19 @@ void View::DeleteProcess_view(qint32 id)
 	}
 }
 
+void View::InitTableView()
+{
+	if (this->manager.getProcessInfo().size() == 0) {
+		qDebug() << "manager's processinfo is empty";
+		return;
+	}
+
+	for each (auto key in this->manager.getProcessInfo().keys())
+	{
+
+	}
+}
+
 void View::on_btn_start_clicked()
 {
 	this->manager.PauseAll(false);
@@ -71,11 +93,11 @@ void View::on_btn_stop_clicked()
 void View::on_btn_save_clicked()
 {
 	for (int i = 0; i < this->ui.tableWidget->rowCount(); ++i) {
-		QTableWidgetItem* id = this->ui.tableWidget->item(i, 0);	//第i行第1个元素
-		QWidget* cBox = this->ui.tableWidget->cellWidget(i, 1);
-		QTableWidgetItem* filePath = this->ui.tableWidget->item(i, 2);
-		QTableWidgetItem* Info = this->ui.tableWidget->item(i, 3);
-		if (id == nullptr || cBox == nullptr || filePath == nullptr || Info == nullptr) {
+		//QTableWidgetItem* id = this->ui.tableWidget->item(i, 0);	//第i行第1个元素
+		QWidget* cBox = this->ui.tableWidget->cellWidget(i, 0);
+		QTableWidgetItem* filePath = this->ui.tableWidget->item(i, 1);
+		QTableWidgetItem* Info = this->ui.tableWidget->item(i, 2);
+		if ( cBox == nullptr || filePath == nullptr) {
 			continue;
 		}
 		if (filePath->text().isEmpty()) {			//没有存文件路径的直接删除这一行 
@@ -85,12 +107,12 @@ void View::on_btn_save_clicked()
 		QCheckBox* checkBox = qobject_cast<QCheckBox*>(cBox);
 
 		ProcessInfo processInfo;
-		processInfo.id = id->text().toInt();
+		processInfo.id = this->manager.getSize();
 		processInfo.bln_resetable = checkBox->isChecked();
 		processInfo.fileInfo = QFileInfo(filePath->text());
 		processInfo.info = Info->text();
 
-		this->manager.SetProcess(processInfo.id, processInfo);
+		this->manager.SetProcess(processInfo);
 
 	}
 }
@@ -99,22 +121,27 @@ void View::on_btn_add_clicked()
 {
 	this->ui.tableWidget->insertRow(this->ui.tableWidget->rowCount());
 	QCheckBox* checkBox = new QCheckBox();
-	this->ui.tableWidget->setCellWidget(this->ui.tableWidget->rowCount() - 1, 1, checkBox);
+	this->ui.tableWidget->setCellWidget(this->ui.tableWidget->rowCount() - 1, 0, checkBox);
 }
 
 void View::on_btn_del_clicked()
 {
+
 	// 获取当前选中的行号（可能有多行选中）
 	QList<QTableWidgetItem*> items = ui.tableWidget->selectedItems();
 	QSet<int> rows;
 	for(QTableWidgetItem * item: items) {
 		rows.insert(item->row());
+		QTableWidgetItem* line = this->ui.tableWidget->item(item->row(), 1);
+		this->manager.DeleteProcess(line->text());
 	}
 
 	// 逆序删除所有选中的行
 	for(int row: rows.toList()) {
 		ui.tableWidget->removeRow(row);
 	}
+
+
 }
 
 
@@ -134,10 +161,30 @@ bool Process::init(QString filePath, qint32 id)
 		qDebug() << "file not exist!";
 		return false;
 	}
-		this->pInfo.fileInfo.setFile(this->file);
+	this->pInfo.fileInfo.setFile(this->file);
 
 	this->bln_init = true;
+
 	this->pInfo.id = id;
+
+	return true;
+}
+
+bool Process::init(QString filePath, qint32 id, QString info,bool resetable)
+{
+	this->file.setFileName(filePath);
+	//文件不一定要能打开
+	if (!file.exists()) {
+		qDebug() << "file not exist!";
+		return false;
+	}
+	this->pInfo.fileInfo.setFile(this->file);
+
+	this->bln_init = true;
+
+	this->pInfo.id = id;
+	this->pInfo.info = info;
+	this->setResetable(resetable);
 	return true;
 }
 
@@ -167,6 +214,7 @@ ProcessInfo &Process::getProcessInfo()
 
 void Process::setProcessInfo(ProcessInfo& info)
 {
+	this->setResetable(pInfo.bln_resetable);
 	this->pInfo = info;
 }
 
@@ -178,6 +226,18 @@ void Process::setProcessInfo(QFileInfo& info)
 	pInfo.fileInfo = info;
 	
 }
+
+bool Process::isEmpty()
+{
+	return !this->bln_init;
+}
+
+Process& Process::Empty()
+{
+	Process process;
+	return process;
+}
+
 
 void Process::sendInfo(const QString& string)
 {
@@ -191,7 +251,8 @@ bool Process::openProcess()
 		return false;
 	}
 
-	this->process.setProgram(this->pInfo.fileInfo.absolutePath());
+	this->process.setProgram(this->pInfo.fileInfo.absoluteFilePath());
+	qDebug() << this->pInfo.fileInfo.absoluteFilePath();
 	this->process.start();
 
 	if (this->process.waitForStarted(30000)) {//等待启动并进入
@@ -236,7 +297,7 @@ void Process::setResetable(bool resetable)
 	}
 }
 void Process::sendException(const QString& string) {
-	emit Exception(this->pInfo.id,this->pInfo.fileInfo.absolutePath() + string);
+	emit Exception(this->pInfo.id,this->pInfo.fileInfo.absoluteFilePath() + string);
 	return;
 }
 
@@ -252,12 +313,15 @@ void ProcessManager::init()
 {
 	this->createConfigFolderIfNeeded();
 
+	this->bln_init = true;
 }
 
 qint32 ProcessManager::AddProcess(QString Path)
 {
 	Process* process = new Process();
+
 	process->init(Path, this->list_process.size());
+
 	qint32 id = this->list_process.size();
 	this->list_process.insert(id, process);
 
@@ -270,12 +334,60 @@ qint32 ProcessManager::AddProcess(QString Path)
 	return id;
 }
 
+qint32 ProcessManager::AddProcess(QString Path, QString info, bool blnResetable)
+{
+	Process* process = new Process();
+
+	process->init(Path, this->list_process.size(), info,blnResetable);
+
+	qint32 id = this->list_process.size();
+	this->list_process.insert(id, process);
+
+	//需要绑定事件
+	connect(process, &Process::Exception, this, &ProcessManager::Exception);			//异常
+	connect(process, &Process::Info, this, &ProcessManager::Info);					//通知
+
+	process->setResetable(process->getProcessInfo().bln_resetable);				//根据情况决定是否守护
+
+	this->SaveSettingsFile();
+
+	return id;
+}
+
+
+
 void ProcessManager::DeleteProcess(qint32 id)
 {
 	this->hash_info.remove(id);
 	this->list_process.remove(id);
 
 	this->SaveSettingsFile();
+}
+
+bool ProcessManager::DeleteProcess(QString filePath)
+{
+	QList<int> list_key = this->list_process.keys();
+	for (auto key : list_key) {
+		if (list_process[key]->getProcessInfo().fileInfo.absoluteFilePath().contains(filePath)) {
+			//销毁一个指针之前，需要停止所有计时器
+			for (auto child : this->list_process[key]->children())
+			{
+				QTimer* childTimer = qobject_cast<QTimer*>(child);
+				if (childTimer != nullptr)
+				{
+					childTimer->stop();
+					childTimer->deleteLater();
+				}
+			}
+			this->list_process[key]->deleteLater();
+			this->list_process.remove(key);
+			this->SaveSettingsFile();
+			return true;
+		}
+		this->list_process[key]->deleteLater();
+	}
+	this->SaveSettingsFile();
+	return false;
 }
 
 void ProcessManager::SetProcess(qint32 id, QFileInfo fileInfo)
@@ -294,15 +406,28 @@ void ProcessManager::SetProcess(qint32 id, QFileInfo fileInfo)
 	this->SaveSettingsFile();
 }
 
-void ProcessManager::SetProcess(qint32 id, ProcessInfo processInfo)
+
+void ProcessManager::SetProcess(ProcessInfo processInfo)
 {
-	if (this->list_process.contains(id)) {
-		Process* p = this->list_process.value(id);
-		p->setProcessInfo(processInfo);
+	//判断是否存在同路径
+	bool bln_exist = this->exist(processInfo.fileInfo.absoluteFilePath());
+	
+	if (bln_exist) {
+		//找到指定进程
+		QList<int> list_key = this->list_process.keys();
+		for (auto key : list_key) {
+			if (list_process[key]->getProcessInfo().fileInfo.absoluteFilePath().contains(processInfo.fileInfo.absoluteFilePath())) {
+				Process* p = list_process[key];
+				p->setProcessInfo(processInfo);
+			}
+		}
 	}
 	else {
 		Process* process = new Process();
-		process->init(processInfo.fileInfo.absolutePath(), this->list_process.size());
+
+		if (!process->init(processInfo.fileInfo.absoluteFilePath(), this->list_process.size(), processInfo.info,processInfo.bln_resetable)) {
+			return;
+		}
 
 		this->list_process.insert(this->list_process.size(), process);
 	}
@@ -314,6 +439,17 @@ ProcessInfo ProcessManager::getProcess(qint32 id)
 {
 	if (this->list_process.contains(id)) {
 		return this->list_process.value(id)->getProcessInfo();
+	}
+	return ProcessInfo();
+}
+
+ProcessInfo ProcessManager::getProcess(QString filePath)
+{
+	//return ProcessInfo();
+	for (auto process : this->list_process) {
+		if (process->getProcessInfo().fileInfo.absoluteFilePath().contains(filePath)) {
+			return process->getProcessInfo();
+		}
 	}
 	return ProcessInfo();
 }
@@ -338,6 +474,28 @@ void ProcessManager::PauseAll(bool pauseAll)
 	}
 }
 
+bool ProcessManager::get_bln_init()
+{
+	return this->bln_init;
+}
+
+qint32 ProcessManager::getSize()
+{
+	return this->list_process.size();
+}
+
+bool ProcessManager::exist(QString filePath)
+{
+	
+	QList<int> list_key = this->list_process.keys();
+	for (auto key : list_key) {
+		if (list_process[key]->getProcessInfo().fileInfo.absoluteFilePath().contains(filePath)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void ProcessManager::sendInfo(const QString& string)
 {
 	emit this->Info(0, "", string);
@@ -353,61 +511,105 @@ void ProcessManager::createConfigFolderIfNeeded()
 	// 检查config文件夹是否存在，如果不存在则创建该文件夹
 	QString configPath = appPath + "/config";
 	if (!QDir(configPath).exists()) {
-		qDebug() << "Creating config directory...";
+		this->sendInfo("Creating config directory...");
 		if (!QDir().mkdir(configPath)) {
-			qDebug() << "Failed to create config directory!";
+			this->sendInfo("Failed to create config directory!");
 			return;
 		}
 	}
-	//if (!dir.exists(configFolderName)) { // 检查文件夹是否存在
-	//	QDir().mkdir(configFolderName); // 创建文件夹
-	//}
 	// 在config文件夹中创建ProtectProcess.ini文件，如果不存在
-	QString configFile = configPath + "/ProtectProcess.ini";
-	QString configIni = configPath + "/ProtectProcess";
+	QString configFile = configPath + "/ProtectProcess.txt";
 	QFile file(configFile);
 	if (!QFile(configFile).exists()) {
-		qDebug() << "Creating ProtectProcess.ini file...";
+		this->sendInfo("Creating ProtectProcess.ini file...");
 		if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-			qDebug() << "Failed to create ProtectProcess.ini file!";
+			this->sendInfo("Failed to create ProtectProcess.ini file!");
 			return;
 		}
 	}
 
-	//QString configFile = QString("%1/ProtectProcess.ini").arg(configPath)/*.arg(configFolderName)*/;
-	//QFile file(configFile);
-
+	//以JSON的形式存放，不再以Settings的形式存放，不知道为什么没法正常使用
 	if (!file.exists()) { // 检查文件是否存在
-		qDebug() << "1.ProtectProcess.ini dont exist yet";
+		this->sendInfo("1.ProtectProcess.ini dont exist yet");
 		return;
 	}
-	file.close();
+	
+	if (!file.open(QIODevice::ReadOnly)) {
+		this->sendInfo("Cant Open File");
+		return;
+	}
 	this->configIniFilepath = configFile;
 	
-	QSettings temp(configIni);
-	bool result = temp.isWritable();
-	QList<QString> list_string = temp.allKeys();
-	for (auto key : list_string) {
-		//添加到目录下
-		this->AddProcess(temp.value(key).toString());
+	const auto strMessage = file.readAll();
+
+	const auto json_doc = QJsonDocument::fromJson(strMessage);
+
+	if (json_doc.isNull()) {
+		this->sendInfo("QJson null");
+		return;
 	}
+
+	const auto json_obj = json_doc.object();
+
+	if (!json_obj.contains("data")) {
+		this->sendInfo("jsonObject dont contains values that we need");
+		return;
+	}
+
+	const auto data_val = json_obj.value("data");
+
+	if (!data_val.isArray()) {
+		this->sendInfo("data is not array");
+		return;
+	}
+
+	const QJsonArray json_list = data_val.toArray();
+
+	for (const auto& obj_val : json_list) {
+		if (!obj_val.isObject()) {
+			continue;
+		}
+
+		//json 包含三个部分:ID,Path,Info
+		this->AddProcess(obj_val.toObject().value("Path").toString(), obj_val.toObject().value("Info").toString(),obj_val.toObject().value("Resetable").toBool());
+	}
+	
 
 }
 
 void ProcessManager::SaveSettingsFile()
 {
-	QSettings setting(this->configIniFilepath);
-
-	if (!setting.isWritable()) {
-		sendException("Cant write QSettings");
+	QFile file(this->configIniFilepath);
+	if (!file.open(QIODevice::ReadWrite)) {
+		this->sendInfo("Can't open file in ReadWrite");
 		return;
 	}
 
-	for (auto value : this->list_process) {
-		setting.setValue(QString::number(value->getProcessInfo().id), value->getProcessInfo().fileInfo.absolutePath());
+	QList<int> list_keys = this->list_process.keys();
+	QJsonObject obj_data;
+	QJsonArray json_arr;
+
+	for (int key : list_keys) {
+		ProcessInfo pi = this->list_process.value(key)->getProcessInfo();
+
+		QJsonObject obj;
+		obj["ID"] = pi.id;
+		obj["Path"] = pi.fileInfo.absoluteFilePath();
+		obj["info"] = pi.info;
+		obj["Resetable"] = pi.bln_resetable;
+		
+		json_arr.append(obj);	//插入一个
 	}
-	//保存写入磁盘
-	setting.sync();
+
+	obj_data["data"] = json_arr;
+
+	QJsonDocument json_doc(obj_data);
+
+	file.seek(0);
+	file.write(json_doc.toJson());
+	file.resize(file.pos());
+
+	file.close();
 }
 
 void ProcessManager::sendException(const QString& string) {

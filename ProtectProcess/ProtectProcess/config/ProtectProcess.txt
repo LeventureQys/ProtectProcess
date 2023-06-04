@@ -1,0 +1,10 @@
+{
+    "data": [
+        {
+            "ID": 1,
+            "Path": "D:/WorkShop/Github/QApplicationFrame/QApplicationFrame/Debug/QApplicationFrame.exe",
+            "Resetable": false,
+            "info": "123"
+        }
+    ]
+}

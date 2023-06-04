@@ -1,9 +1,3 @@
-﻿  Reading Qt configuration (D:/DevTools/Qt32/5.12.12/msvc2017/bin/qmake)
-  SystemInfo.cpp
-  main.cpp
-  MainApplication.cpp
-  LgQDumper.cpp
-  Tools_South.cpp
-  moc_SystemInfo.cpp
-  moc_MainApplication.cpp
-  ProtectProcess.vcxproj -> D:\WorkShop\Github\ProtectProcess\QApplicationFrame\Release\ProtectProcess.exe
+﻿  View.cpp
+D:\WorkShop\Github\ProtectProcesses\ProtectProcess\ProtectProcess\View\View.cpp(238): warning C4172: 返回局部变量或临时变量的地址: process
+  ProtectProcess.vcxproj -> D:\WorkShop\Github\ProtectProcesses\ProtectProcess\Release\ProtectProcess.exe

@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
 <Qt_DEFINES_>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG</Qt_DEFINES_>
-<Qt_INCLUDEPATH_>C:\Users\Administrator\AppData\Local\Temp\sbobhy45.1mp;D:\DevTools\Qt32\5.12.12\msvc2017\include;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtWidgets;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtGui;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtANGLE;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtCore;C:\Users\Administrator\AppData\Local\Temp\sbobhy45.1mp;/include;D:\DevTools\Qt32\5.12.12\msvc2017\mkspecs\win32-msvc</Qt_INCLUDEPATH_>
+<Qt_INCLUDEPATH_>C:\Users\Administrator\AppData\Local\Temp\4bdizenp.cdp;D:\DevTools\Qt32\5.12.12\msvc2017\include;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtWidgets;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtGui;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtANGLE;D:\DevTools\Qt32\5.12.12\msvc2017\include\QtCore;C:\Users\Administrator\AppData\Local\Temp\4bdizenp.cdp;/include;D:\DevTools\Qt32\5.12.12\msvc2017\mkspecs\win32-msvc</Qt_INCLUDEPATH_>
 <Qt_STDCPP_></Qt_STDCPP_>
 <Qt_RUNTIME_>MultiThreadedDLL</Qt_RUNTIME_>
 <Qt_CL_OPTIONS_>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus</Qt_CL_OPTIONS_>
@@ -33,7 +33,7 @@
 <QMake_QMAKE_VERSION_>3.1</QMake_QMAKE_VERSION_>
 <QMake_QT_VERSION_>5.12.12</QMake_QT_VERSION_>
 <Qt_INCLUDEPATH_
-      >$(Qt_INCLUDEPATH_);Release\moc</Qt_INCLUDEPATH_>
+      >$(Qt_INCLUDEPATH_);Release\moc;Release\uic</Qt_INCLUDEPATH_>
     <QtBkup_QtInstall
       >5.12.12_msvc2017</QtBkup_QtInstall>
     <QtBkup_QtModules

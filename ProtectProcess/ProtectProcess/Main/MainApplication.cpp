@@ -98,7 +98,7 @@ void MainApplication::ReadDevloperMode()
 {
 	switch (SystemInfo::Singleton()->Dev_Mode) {
 	case DevState::Developer_Mode: {
-		this->viewer.initView();
+		this->viewer.show();
 		break;}
 	case DevState::Infomation_Mode: {
 		break;}
@@ -110,6 +110,8 @@ void MainApplication::ReadDevloperMode()
 void MainApplication::Start() {
 	
 	this->initApplication();		//初始化进程
+	this->viewer.initView();
+	this->viewer.show();
 	this->ReadDevloperMode();		//读取开发者模式
 
 
