@@ -119,9 +119,28 @@ void View::on_btn_save_clicked()
 
 void View::on_btn_add_clicked()
 {
+	QString fileName = QFileDialog::getOpenFileName(this, "Select File", QDir::homePath(), "All files (*.*)");
+
+	if (!fileName.isEmpty())
+	{
+		// 用户成功选择了一个文件，可以处理它
+		qDebug() << "Selected file: " << fileName;
+	}
+	else
+	{
+		// 用户取消了文件选择对话框
+		qDebug() << "User canceled file selection.";
+		return;
+	}
+
+
+
 	this->ui.tableWidget->insertRow(this->ui.tableWidget->rowCount());
 	QCheckBox* checkBox = new QCheckBox();
 	this->ui.tableWidget->setCellWidget(this->ui.tableWidget->rowCount() - 1, 0, checkBox);
+	QTableWidgetItem* item = new QTableWidgetItem(fileName);
+
+	this->ui.tableWidget->setItem(this->ui.tableWidget->rowCount() - 1, 1, item);
 }
 
 void View::on_btn_del_clicked()

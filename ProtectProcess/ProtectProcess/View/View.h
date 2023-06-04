@@ -13,6 +13,7 @@
 #include "qjsondocument.h"
 #include "qjsonobject.h"
 #include "qjsonarray.h"
+#include "qfiledialog.h"
 //就是 我知道 业务应该和界面分开，但是我 懒得分开了，嘻嘻
 
 struct ProcessInfo {
